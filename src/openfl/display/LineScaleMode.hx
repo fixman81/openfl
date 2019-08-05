@@ -44,6 +44,7 @@ package openfl.display;
 	**/
 	public var VERTICAL = 3;
 
+	@:from
 	@:noCompletion private inline static function fromInt(value:Null<Int>):LineScaleMode
 	{
 		return cast value;

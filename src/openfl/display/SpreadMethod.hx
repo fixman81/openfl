@@ -28,6 +28,7 @@ package openfl.display;
 	**/
 	public var REPEAT = 2;
 
+	@:from
 	@:noCompletion private inline static function fromInt(value:Null<Int>):SpreadMethod
 	{
 		return cast value;

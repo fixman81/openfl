@@ -332,7 +332,7 @@ class MovieClip extends flash.display.MovieClip
 			if (lastTag != null) cast(displayObject, MorphShape).render(lastTag.ratio);
 		}
 
-		Reflect.setField(this, displayObject.name, displayObject);
+		// Reflect.setField(this, displayObject.name, displayObject);
 	}
 
 	public override function play():Void
@@ -342,8 +342,11 @@ class MovieClip extends flash.display.MovieClip
 			playing = true;
 			clips.push(this);
 
-			Lib.current.stage.removeEventListener(Event.ENTER_FRAME, stage_onEnterFrame);
-			Lib.current.stage.addEventListener(Event.ENTER_FRAME, stage_onEnterFrame);
+			if (Lib.current.stage != null)
+			{
+				Lib.current.stage.removeEventListener(Event.ENTER_FRAME, stage_onEnterFrame);
+				Lib.current.stage.addEventListener(Event.ENTER_FRAME, stage_onEnterFrame);
+			}
 		}
 	}
 
@@ -392,11 +395,12 @@ class MovieClip extends flash.display.MovieClip
 					// Remove the object from the display list
 					// todo - disconnect event handlers ?
 					removeChild(activeObject.object);
-
-					if (activeObject.object.name != null && Reflect.hasField(this, activeObject.object.name))
-					{
-						Reflect.deleteField(this, activeObject.object.name);
-					}
+					/*
+						if (activeObject.object.name != null && Reflect.hasField(this, activeObject.object.name))
+						{
+							Reflect.deleteField(this, activeObject.object.name);
+						}
+					 */
 				}
 				else
 				{
@@ -555,7 +559,10 @@ class MovieClip extends flash.display.MovieClip
 			playing = false;
 			clips.remove(this);
 
-			if (clips.length == 0) Lib.current.stage.removeEventListener(Event.ENTER_FRAME, stage_onEnterFrame);
+			if (clips.length == 0 && Lib.current.stage != null)
+			{
+				Lib.current.stage.removeEventListener(Event.ENTER_FRAME, stage_onEnterFrame);
+			}
 		}
 	}
 
@@ -637,6 +644,8 @@ class MovieClip extends flash.display.MovieClip
 				matrix.translate(dx - sourceX, dy - sourceY);
 
 				// scale the middle section
+				var applied_scaleY:Float = 1;
+				var applied_scaleX:Float = 1;
 				if (row == 1)
 				{
 					h *= innerScaleY;

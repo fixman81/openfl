@@ -370,10 +370,10 @@ class BitmapData implements IBitmapDrawable
 
 		if (filter.__preserveObject)
 		{
-			bitmapData3.copyPixels(this, rect, destPoint);
+			bitmapData3.copyPixels(sourceBitmapData, rect, destPoint);
 		}
 
-		var lastBitmap = filter.__applyFilter(bitmapData2, this, sourceRect, destPoint);
+		var lastBitmap = filter.__applyFilter(bitmapData2, sourceBitmapData, sourceRect, destPoint);
 
 		if (filter.__preserveObject)
 		{
@@ -928,16 +928,20 @@ class BitmapData implements IBitmapDrawable
 				var bounds = Rectangle.__pool.get();
 				var boundsMatrix = Matrix.__pool.get();
 
+                if (matrix != null) {
+                  boundsMatrix.concat(matrix);
+                }
+
 				source.__getBounds(bounds, boundsMatrix);
 
 				var width:Int = Math.ceil(bounds.width);
 				var height:Int = Math.ceil(bounds.height);
 
-				boundsMatrix.tx = -bounds.x;
-				boundsMatrix.ty = -bounds.y;
+				//boundsMatrix.tx = -bounds.x;
+				//boundsMatrix.ty = -bounds.y;
 
 				var copy = new BitmapData(width, height, true, 0);
-				copy.draw(source, boundsMatrix);
+				copy.draw(source, boundsMatrix, null, null, null, smoothing);
 
 				copy.colorTransform(copy.rect, colorTransform);
 				copy.__renderTransform.identity();
@@ -947,7 +951,11 @@ class BitmapData implements IBitmapDrawable
 				copy.__worldAlpha = source.__worldAlpha;
 				copy.__worldColorTransform.__copyFrom(source.__worldColorTransform);
 				source = copy;
-
+                
+                if (matrix != null) {
+                  transform.concat(matrix.invert());
+                }
+    
 				Rectangle.__pool.release(bounds);
 				Matrix.__pool.release(boundsMatrix);
 			}

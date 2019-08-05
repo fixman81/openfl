@@ -31,6 +31,7 @@ package openfl.display;
 	**/
 	public var ROUND = 2;
 
+	@:from
 	@:noCompletion private inline static function fromInt(value:Null<Int>):JointStyle
 	{
 		return cast value;

@@ -21,6 +21,7 @@ package openfl.display;
 	**/
 	public var RADIAL = 1;
 
+	@:from
 	@:noCompletion private inline static function fromInt(value:Null<Int>):GradientType
 	{
 		return cast value;

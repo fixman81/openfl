@@ -40,6 +40,7 @@ package openfl.display;
 	**/
 	public var RGB = 1;
 
+	@:from
 	@:noCompletion private inline static function fromInt(value:Null<Int>):InterpolationMethod
 	{
 		return cast value;

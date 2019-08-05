@@ -32,6 +32,7 @@ package openfl.display;
 	**/
 	public var SQUARE = 2;
 
+	@:from
 	@:noCompletion private inline static function fromInt(value:Null<Int>):CapsStyle
 	{
 		return cast value;
